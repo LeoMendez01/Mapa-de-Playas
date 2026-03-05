@@ -1,0 +1,30 @@
+name: Verify docs sync
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - master
+      - work
+
+jobs:
+  verify-docs-sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Sync docs from root
+        run: bash scripts/sync-docs.sh
+
+      - name: Fail if docs is out of sync
+        run: |
+          if ! git diff --quiet -- docs/index.html docs/css/style.css docs/js/app.js docs/data/playas.geojson docs/.nojekyll; then
+            echo "❌ docs/ está desincronizado respecto a raíz."
+            echo "Ejecuta: bash scripts/sync-docs.sh"
+            git --no-pager diff -- docs/index.html docs/css/style.css docs/js/app.js docs/data/playas.geojson docs/.nojekyll
+            exit 1
+          fi
+          echo "✅ docs/ está sincronizado"
