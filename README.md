@@ -1,37 +1,35 @@
-# Mapa de Playas
+# Mapa de Playas - Flujo anti-conflictos
 
-Repositorio del visor geoespacial de playas de El Salvador.
+Este repositorio mantiene archivos duplicados en raíz y `docs/` para publicación en GitHub Pages.
+Para evitar conflictos repetitivos, **la raíz es la fuente de verdad** y `docs/` se sincroniza automáticamente.
 
-## Cambio importante (anti-conflictos)
+## Configuración (una sola vez)
 
-Se eliminó la duplicación de archivos en `docs/` para evitar conflictos repetitivos en PR.
+```bash
+bash scripts/setup-git-hooks.sh
+```
 
-Desde ahora, la **única fuente de verdad** es la raíz del repo:
-- `index.html`
-- `css/style.css`
-- `js/app.js`
-- `data/playas.geojson`
+Esto activa el hook de git local (`.githooks/pre-commit`) que sincroniza `docs/` antes de cada commit.
 
-## Publicación
+## Uso diario
 
-La publicación se hace por GitHub Actions con el workflow:
-- `.github/workflows/deploy-pages.yml`
+1. Edita solo en raíz:
+   - `index.html`
+   - `css/style.css`
+   - `js/app.js`
+   - `data/playas.geojson`
+2. El hook pre-commit sincroniza automáticamente `docs/`.
 
-## Flujo recomendado para evitar bloqueos al merge
+## Si hay conflictos de merge
 
 ```bash
 git fetch origin
-git checkout <tu-rama>
 git merge origin/<rama-base>
-# resolver conflictos locales si aparecen
-node --check js/app.js
-python -m json.tool data/playas.geojson > /tmp/playas.json
+bash scripts/sync-docs.sh
 git add .
-git commit -m "Resolve merge conflicts"
-git push
+git commit -m "Resolve conflicts and sync docs"
 ```
 
-## Nota
+## CI de protección
 
-No uses el editor web de conflictos de GitHub para este proyecto salvo emergencia.
-Resuélvelo localmente con merge, prueba y push.
+El workflow `.github/workflows/verify-docs-sync.yml` falla el PR si `docs/` no coincide con raíz.

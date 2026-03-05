@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_root="$(git rev-parse --show-toplevel)"
+cd "$repo_root"
+
+scripts/sync-docs.sh
+
+git add docs/index.html docs/css/style.css docs/js/app.js docs/data/playas.geojson docs/.nojekyll
+
+echo "✅ pre-commit: docs sincronizado y agregado al commit"
