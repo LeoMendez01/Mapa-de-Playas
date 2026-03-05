@@ -9,7 +9,7 @@
       },
       "properties": {
         "Playa": "Playa Mizata",
-        "Estudios": "Caracterización biofísica\nBatimetría y propagación de oleaje",
+        "Estudios": "Caracterización biofísica, Batimetría y propagación de oleaje",
         "Latitud": 13.510458,
         "Longitud": -89.599289
       }
@@ -22,9 +22,35 @@
       },
       "properties": {
         "Playa": "Playa El Zonte",
-        "Estudios": "Caracterización biofísica\nBatimetría y propagación de oleaje",
+        "Estudios": "Caracterización biofísica, Batimetría y propagación de oleaje",
         "Latitud": 13.494056,
         "Longitud": -89.439469
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-89.351294, 13.484989]
+      },
+      "properties": {
+        "Playa": "Playa El Cocal",
+        "Estudios": "Batimetría, propagación de oleaje, estudios de transporte de sedimentos",
+        "Latitud": 13.484989,
+        "Longitud": -89.351294
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-89.327783, 13.480331]
+      },
+      "properties": {
+        "Playa": "Playa Punta Roca",
+        "Estudios": "Caracterización geomorfológica, caracterización biofísica, batimetría y propagación de oleaje",
+        "Latitud": 13.480331,
+        "Longitud": -89.327783
       }
     },
     {
@@ -35,9 +61,35 @@
       },
       "properties": {
         "Playa": "Playa La Paz",
-        "Estudios": "Caracterización geomorfológica\nCaracterización biofísica\nBatimetría y propagación de oleaje",
+        "Estudios": "Caracterización geomorfológica, caracterización biofísica, batimetría y propagación de oleaje",
         "Latitud": 13.486014,
         "Longitud": -89.323164
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-89.312911, 13.485714]
+      },
+      "properties": {
+        "Playa": "Playa El Obispo",
+        "Estudios": "Caracterización geomorfológica, caracterización biofísica, batimetría y propagación de oleaje",
+        "Latitud": 13.485714,
+        "Longitud": -89.312911
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-87.841594, 13.339328]
+      },
+      "properties": {
+        "Playa": "Playa La Unión",
+        "Estudios": "Caracterización geomorfológica, caracterización biofísica,estudios de transporte de sedimentos, batimetría y propagación de oleaje",
+        "Latitud": 13.339328,
+        "Longitud": -87.841594
       }
     }
   ]

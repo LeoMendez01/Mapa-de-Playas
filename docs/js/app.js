@@ -1,6 +1,7 @@
 (function () {
   const defaultCenter = [13.7, -89.2];
   const defaultZoom = 8;
+  const expectedMinimumBeaches = 7;
 
   const map = L.map("map", {
     center: defaultCenter,
@@ -17,25 +18,19 @@
   const layerControl = L.control.layers({}, {}, { collapsed: false }).addTo(map);
   layerControl.addBaseLayer(osmLayer, "OpenStreetMap");
 
-  let activeBaseLayer = osmLayer;
   let googleLayersAdded = false;
-
   const hasGoogleKey = typeof window.GOOGLE_MAPS_API_KEY === "string" && window.GOOGLE_MAPS_API_KEY.trim().length > 0;
   const googleWarning = document.getElementById("google-warning");
+  const beachCountEl = document.getElementById("beach-count");
 
   if (hasGoogleKey && L.gridLayer && typeof L.gridLayer.googleMutant === "function") {
-    const googleRoadmap = L.gridLayer.googleMutant({
-      type: "roadmap"
-    });
-    const googleSatellite = L.gridLayer.googleMutant({
-      type: "satellite"
-    });
+    const googleRoadmap = L.gridLayer.googleMutant({ type: "roadmap" });
+    const googleSatellite = L.gridLayer.googleMutant({ type: "satellite" });
 
     layerControl.addBaseLayer(googleRoadmap, "Google Roadmap");
     layerControl.addBaseLayer(googleSatellite, "Google Satellite");
 
     googleRoadmap.addTo(map);
-    activeBaseLayer = googleRoadmap;
     googleLayersAdded = true;
   }
 
@@ -90,6 +85,11 @@
       li.appendChild(btn);
       beachList.appendChild(li);
     });
+
+    if (beachCountEl) {
+      beachCountEl.textContent = `Playas cargadas: ${markers.length}`;
+      beachCountEl.classList.toggle("is-warning", markers.length < expectedMinimumBeaches);
+    }
   }
 
   function fitAll() {
@@ -100,16 +100,43 @@
 
   document.getElementById("fit-all-btn").addEventListener("click", fitAll);
 
-  fetch("data/playas.geojson")
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`No se pudo cargar data/playas.geojson (${response.status})`);
+  async function fetchBestGeoJSON() {
+    const basePath = window.location.pathname.includes("/docs/") ? "../" : "";
+    const urls = [
+      `${basePath}data/playas.geojson`,
+      "data/playas.geojson",
+      "docs/data/playas.geojson"
+    ];
+
+    let best = null;
+
+    for (const url of urls) {
+      try {
+        const response = await fetch(`${url}?t=${Date.now()}`, { cache: "no-store" });
+        if (!response.ok) continue;
+
+        const data = await response.json();
+        if (data?.type !== "FeatureCollection" || !Array.isArray(data.features)) continue;
+
+        if (!best || data.features.length > best.features.length) {
+          best = data;
+        }
+      } catch (error) {
+        console.warn(`Fallo al intentar ${url}:`, error);
       }
-      return response.json();
-    })
+    }
+
+    if (!best) {
+      throw new Error("No se pudo cargar ningún archivo GeoJSON válido.");
+    }
+
+    return best;
+  }
+
+  fetchBestGeoJSON()
     .then((geojson) => {
       markerGroup = L.geoJSON(geojson, {
-        pointToLayer: function (feature, latlng) {
+        pointToLayer: function (_feature, latlng) {
           return L.circleMarker(latlng, {
             radius: 7,
             weight: 1,
@@ -139,8 +166,5 @@
     .catch((error) => {
       console.error(error);
       alert("No se pudieron cargar los puntos de playas. Verifica data/playas.geojson.");
-      if (activeBaseLayer) {
-        activeBaseLayer.addTo(map);
-      }
     });
 })();
