@@ -1,0 +1,44 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-89.599289, 13.510458]
+      },
+      "properties": {
+        "Playa": "Playa Mizata",
+        "Estudios": "Caracterización biofísica\nBatimetría y propagación de oleaje",
+        "Latitud": 13.510458,
+        "Longitud": -89.599289
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-89.439469, 13.494056]
+      },
+      "properties": {
+        "Playa": "Playa El Zonte",
+        "Estudios": "Caracterización biofísica\nBatimetría y propagación de oleaje",
+        "Latitud": 13.494056,
+        "Longitud": -89.439469
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-89.323164, 13.486014]
+      },
+      "properties": {
+        "Playa": "Playa La Paz",
+        "Estudios": "Caracterización geomorfológica\nCaracterización biofísica\nBatimetría y propagación de oleaje",
+        "Latitud": 13.486014,
+        "Longitud": -89.323164
+      }
+    }
+  ]
+}
