@@ -16,16 +16,16 @@
     <div class="app-container">
       <aside class="sidebar" aria-label="Listado de playas">
         <div class="sidebar-header">
-          <h1>Playas de El Salvador</h1>
+          <h1>Proyectos Realizados</h1>
           <button id="fit-all-btn" type="button">Ajustar a todos</button>
         </div>
 
-        <p id="google-warning" class="notice hidden" role="status" aria-live="polite">
-          Google requiere API key. Se usa OpenStreetMap como capa base.
-        </p>
 
         <p id="beach-count" class="count-badge">Playas cargadas: 0</p>
-        <ul id="beach-list" class="beach-list" aria-label="Lista de playas"></ul>
+        <details id="beach-list-panel" class="beach-panel" open>
+          <summary>Lista de playas</summary>
+          <ul id="beach-list" class="beach-list" aria-label="Lista de playas"></ul>
+        </details>
       </aside>
 
       <main class="map-wrapper">
@@ -33,17 +33,11 @@
       </main>
     </div>
 
-    <script>
-      // Define esta variable con tu API key de Google Maps si deseas usar la capa Google.
-      // Ejemplo: window.GOOGLE_MAPS_API_KEY = "TU_API_KEY";
-      window.GOOGLE_MAPS_API_KEY = window.GOOGLE_MAPS_API_KEY || "";
-    </script>
     <script
       src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
       integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
       crossorigin=""
     ></script>
-    <script src="https://unpkg.com/leaflet.gridlayer.googlemutant@0.13.5/Leaflet.GoogleMutant.js"></script>
     <script src="js/app.js"></script>
   </body>
 </html>

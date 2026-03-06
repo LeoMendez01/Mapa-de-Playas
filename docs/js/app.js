@@ -15,29 +15,23 @@
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   });
 
-  const layerControl = L.control.layers({}, {}, { collapsed: false }).addTo(map);
-  layerControl.addBaseLayer(osmLayer, "OpenStreetMap");
+  const satelliteLayer = L.tileLayer(
+    "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+    {
+      attribution:
+        'Tiles &copy; Esri &mdash; Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community'
+    }
+  );
 
-  let googleLayersAdded = false;
-  const hasGoogleKey = typeof window.GOOGLE_MAPS_API_KEY === "string" && window.GOOGLE_MAPS_API_KEY.trim().length > 0;
-  const googleWarning = document.getElementById("google-warning");
+  const baseLayers = {
+    "OpenStreetMap": osmLayer,
+    "Imagen satelital": satelliteLayer
+  };
+
+  const layerControl = L.control.layers(baseLayers, {}, { collapsed: false }).addTo(map);
   const beachCountEl = document.getElementById("beach-count");
 
-  if (hasGoogleKey && L.gridLayer && typeof L.gridLayer.googleMutant === "function") {
-    const googleRoadmap = L.gridLayer.googleMutant({ type: "roadmap" });
-    const googleSatellite = L.gridLayer.googleMutant({ type: "satellite" });
-
-    layerControl.addBaseLayer(googleRoadmap, "Google Roadmap");
-    layerControl.addBaseLayer(googleSatellite, "Google Satellite");
-
-    googleRoadmap.addTo(map);
-    googleLayersAdded = true;
-  }
-
-  if (!googleLayersAdded) {
-    osmLayer.addTo(map);
-    googleWarning.classList.remove("hidden");
-  }
+  osmLayer.addTo(map);
 
   const markers = [];
   let markerGroup = null;
